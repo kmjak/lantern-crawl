@@ -8,7 +8,49 @@
 <body>
   <main id="app">
     <h1 class="title">Lantern Crawl</h1>
+    <section class="hud" aria-label="ステータス">
+      <div class="hud-item">Lv <strong id="hud-level">1</strong></div>
+      <div class="hud-item hud-hp">
+        HP <strong id="hud-hp">8/8</strong>
+        <span class="bar"><span id="hud-hp-bar" class="bar-fill"></span></span>
+      </div>
+      <div class="hud-item">EXP <strong id="hud-xp">0</strong></div>
+      <div class="hud-item">⏱ <strong id="hud-time">0</strong></div>
+    </section>
+    <div id="board" class="board" role="grid" aria-label="洞窟"></div>
+    <p id="log" class="log" aria-live="polite">好きなマスを開いて探索を始めよう。</p>
+    <div class="controls">
+      <button id="memo-toggle" type="button" aria-pressed="false">メモ：OFF</button>
+      <button id="restart" type="button">やり直す</button>
+    </div>
+    <details class="help">
+      <summary>遊び方</summary>
+      <ul>
+        <li>開いたマスの数字は、周り 8 マスにいる魔物のレベルの<strong>合計</strong>。</li>
+        <li>魔物のマスを開くと戦闘。自分のレベル以下の魔物はノーダメージで倒せるが、格上ほど大きなダメージを受ける。</li>
+        <li>魔物を倒すと経験値が入り、レベルアップで最大 HP が上がる。🧪 回復薬を見つけると HP が回復する。</li>
+        <li>洞窟に潜む <strong>深淵の主（Lv9）</strong>を倒せばクリア。HP が 0 になるとゲームオーバー。</li>
+        <li>メモ：右クリック（スマホは「メモ」を ON にしてタップ）で、推理した魔物のレベルを書き込める。</li>
+      </ul>
+      <p class="help-heading">洞窟の魔物</p>
+      <ul id="bestiary" class="bestiary"></ul>
+    </details>
   </main>
+  <div id="result" class="overlay" hidden>
+    <div class="overlay-card" role="dialog" aria-modal="true" aria-labelledby="result-title">
+      <h2 id="result-title" class="result-title"></h2>
+      <p id="result-text" class="result-text"></p>
+      <dl class="result-stats">
+        <div><dt>スコア</dt><dd id="result-score"></dd></div>
+        <div><dt>レベル</dt><dd id="result-level"></dd></div>
+        <div><dt>時間</dt><dd id="result-time"></dd></div>
+      </dl>
+      <div class="overlay-actions">
+        <button id="retry" type="button" class="primary">もう一度</button>
+        <button id="close-result" type="button">盤面を見る</button>
+      </div>
+    </div>
+  </div>
   <?!= include('game') ?>
   <?!= include('ui') ?>
 </body>
