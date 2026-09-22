@@ -9,7 +9,7 @@ const out = build(mkdtempSync(join(tmpdir(), 'lantern-build-')));
 
 test('gas build has manifest, server code and html partials only', () => {
   const files = readdirSync(join(out, 'gas')).sort();
-  assert.deepEqual(files, ['Code.js', 'appsscript.json', 'game.html', 'index.html', 'style.html', 'ui.html']);
+  assert.deepEqual(files, ['Code.js', 'Ranking.js', 'appsscript.json', 'game.html', 'index.html', 'style.html', 'ui.html']);
   assert.match(readFileSync(join(out, 'gas', 'style.html'), 'utf8'), /^<style>/);
   assert.match(readFileSync(join(out, 'gas', 'game.html'), 'utf8'), /^<script>/);
   assert.match(readFileSync(join(out, 'gas', 'index.html'), 'utf8'), /include\('game'\)/);
