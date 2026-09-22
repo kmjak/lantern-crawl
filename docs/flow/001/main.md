@@ -2,7 +2,7 @@
 
 | Field   | Value                              |
 |---------|------------------------------------|
-| Status  | pr:in-progress                     |
+| Status  | done                               |
 | Ticket  | docs/tickets/001.md                |
 | Branch  | 001-project-setup                  |
 | Updated | 2026-09-22 19:20                   |
@@ -43,3 +43,7 @@ Branch: `001-project-setup`
 - Otherwise no divergences from the ticket, Approach or Plan.
 
 ## PR
+- Title: 001: プロジェクトの土台（ビルド・テスト・ローカルプレビュー）
+- Target: `main`
+- URL: https://github.com/kmjak/lantern-crawl/pull/1
+- Merged by Claude (self-merge authorized by the user).
