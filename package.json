@@ -1,0 +1,13 @@
+{
+  "name": "lantern-crawl",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A minesweeper x RPG web game on Google Apps Script",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test \"test/**/*.test.js\" \"test/**/*.test.mjs\""
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
