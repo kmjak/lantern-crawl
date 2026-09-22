@@ -2,7 +2,7 @@
 
 | Field   | Value                              |
 |---------|------------------------------------|
-| Status  | pr:in-progress                     |
+| Status  | done                               |
 | Ticket  | docs/tickets/002.md                |
 | Branch  | 002-game-logic                     |
 | Updated | 2026-09-22 19:17                   |
@@ -42,3 +42,7 @@ Branch: `002-game-logic`
 - No divergences from the Approach or Plan.
 
 ## PR
+- Title: 002: ゲームロジック
+- Target: `main`
+- URL: https://github.com/kmjak/lantern-crawl/pull/2
+- Merged by Claude (self-merge authorized by the user).
