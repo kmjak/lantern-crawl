@@ -57,9 +57,10 @@ test/                  # node --test
 - `npm test`: unit tests for the game logic and the server ranking logic (Node built-in test runner)
 - `npm run build`: builds `build/gas` and `build/local`
 - Local preview: open `build/local/index.html` in a browser
-- Deploy: `npm run build`, then `clasp push` and `clasp deploy` (see the README)
+- Deploy: `npm run deploy` (build, `clasp push -f`, then update the fixed web-app deployment; see the README)
+- Hosting: the GAS project is owned by a school Google Workspace account. That domain forbids anonymous web apps, so access is `DOMAIN`: only signed-in members of the domain can play.
 
 ## Open Questions
 
-- Web app access level: the plan is "Anyone" (anonymous), so anyone can play without a Google login (assumption).
+- Web app access is `DOMAIN` because the Workspace admin forbids anonymous access. Moving to a personal Google account would allow public access (redeploy from that account).
 - A public ranking with free-text nicknames can attract abusive names. v1 only limits length and strips control characters.

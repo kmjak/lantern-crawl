@@ -5,7 +5,9 @@
   "description": "A minesweeper x RPG web game on Google Apps Script",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "test": "node --test \"test/**/*.test.js\" \"test/**/*.test.mjs\""
+    "test": "node --test \"test/**/*.test.js\" \"test/**/*.test.mjs\"",
+    "push": "npm run build && clasp push -f",
+    "deploy": "npm run push && clasp create-deployment -i AKfycbyjQKEGWYlFIfPWmG-Nu6MtJ4ErTowwbUwaiZsUgtgSIX2viaRScBm6Yi8UKGEbNIxc -d release"
   },
   "engines": {
     "node": ">=22"
