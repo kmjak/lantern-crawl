@@ -1,0 +1,27 @@
+:root {
+  --bg: #14121a;
+  --fg: #ece6d8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif;
+}
+
+#app {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.title {
+  margin: 0 0 12px;
+  font-size: 1.5rem;
+  text-align: center;
+}
