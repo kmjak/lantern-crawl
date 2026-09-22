@@ -2,7 +2,7 @@
 
 | Field   | Value                              |
 |---------|------------------------------------|
-| Status  | pr:in-progress                     |
+| Status  | done                               |
 | Ticket  | docs/tickets/003.md                |
 | Branch  | 003-game-ui                        |
 | Updated | 2026-09-22 19:22                   |
@@ -50,3 +50,7 @@ Branch: `003-game-ui`
 - No divergences from the Approach or Plan.
 
 ## PR
+- Title: 003: ゲーム UI
+- Target: `main`
+- URL: https://github.com/kmjak/lantern-crawl/pull/3
+- Merged by Claude (self-merge authorized by the user).
