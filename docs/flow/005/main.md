@@ -2,7 +2,7 @@
 
 | Field   | Value                              |
 |---------|------------------------------------|
-| Status  | pr:in-progress                     |
+| Status  | done                               |
 | Ticket  | docs/tickets/005.md                |
 | Branch  | 005-deploy                         |
 | Updated | 2026-09-22 20:00                   |
@@ -49,3 +49,7 @@ Branch: `005-deploy`
 - Not covered by this ticket: `docs/tickets/005.md` still says anonymous. It was left as written, since this Review records the change.
 
 ## PR
+- Title: 005: GAS へのデプロイ
+- Target: `main`
+- URL: https://github.com/kmjak/lantern-crawl/pull/5
+- Merged by Claude (self-merge authorized by the user).
