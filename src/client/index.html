@@ -23,6 +23,11 @@
       <button id="memo-toggle" type="button" aria-pressed="false">メモ：OFF</button>
       <button id="restart" type="button">やり直す</button>
     </div>
+    <details id="ranking-panel" class="help">
+      <summary>ランキング</summary>
+      <ol id="ranking-list" class="ranking"></ol>
+      <p id="ranking-status" class="ranking-status"></p>
+    </details>
     <details class="help">
       <summary>遊び方</summary>
       <ul>
@@ -45,6 +50,14 @@
         <div><dt>レベル</dt><dd id="result-level"></dd></div>
         <div><dt>時間</dt><dd id="result-time"></dd></div>
       </dl>
+      <form id="submit-form" class="submit-form">
+        <label for="nickname">ランキングに登録</label>
+        <div class="submit-row">
+          <input id="nickname" type="text" maxlength="12" placeholder="ニックネーム" autocomplete="nickname" required>
+          <button id="submit-score" type="submit">登録</button>
+        </div>
+        <p id="submit-status" class="submit-status" aria-live="polite"></p>
+      </form>
       <div class="overlay-actions">
         <button id="retry" type="button" class="primary">もう一度</button>
         <button id="close-result" type="button">盤面を見る</button>

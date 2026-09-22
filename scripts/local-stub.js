@@ -1,7 +1,32 @@
 // Local preview only: emulates google.script.run.
 // Server functions are looked up in LocalServer and called asynchronously.
 (function () {
-  var LocalServer = {};
+  var STORAGE_KEY = 'lantern-crawl-ranking';
+
+  function load() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  // Same contract as src/server/Code.js, backed by localStorage.
+  var LocalServer = {
+    submitScore: function (input) {
+      var entry = normalizeEntry(input, Date.now());
+      var entries = load().concat([entry]);
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+      } catch (e) {
+        // Storage unavailable: the entry is ranked but not kept.
+      }
+      return rankEntries(entries, entry);
+    },
+    getRanking: function () {
+      return rankEntries(load(), null).top;
+    }
+  };
 
   function runner(success, failure) {
     return new Proxy({}, {
