@@ -18,10 +18,27 @@
       <div class="hud-item">⏱ <strong id="hud-time">0</strong></div>
     </section>
     <div id="board" class="board" role="grid" aria-label="洞窟"></div>
+    <p id="log" class="log" aria-live="polite">好きなマスを開いて探索を始めよう。</p>
     <div class="controls">
+      <button id="memo-toggle" type="button" aria-pressed="false">メモ：OFF</button>
       <button id="restart" type="button">やり直す</button>
     </div>
   </main>
+  <div id="result" class="overlay" hidden>
+    <div class="overlay-card" role="dialog" aria-modal="true" aria-labelledby="result-title">
+      <h2 id="result-title" class="result-title"></h2>
+      <p id="result-text" class="result-text"></p>
+      <dl class="result-stats">
+        <div><dt>スコア</dt><dd id="result-score"></dd></div>
+        <div><dt>レベル</dt><dd id="result-level"></dd></div>
+        <div><dt>時間</dt><dd id="result-time"></dd></div>
+      </dl>
+      <div class="overlay-actions">
+        <button id="retry" type="button" class="primary">もう一度</button>
+        <button id="close-result" type="button">盤面を見る</button>
+      </div>
+    </div>
+  </div>
   <?!= include('game') ?>
   <?!= include('ui') ?>
 </body>
