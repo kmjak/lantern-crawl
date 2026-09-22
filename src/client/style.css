@@ -1,6 +1,15 @@
 :root {
   --bg: #14121a;
   --fg: #ece6d8;
+  --muted: #9a93a6;
+  --stone: #2b2733;
+  --stone-edge: #3a3444;
+  --lit: #e9d9b4;
+  --lit-edge: #cbb88f;
+  --lit-fg: #2a2218;
+  --accent: #f2b544;
+  --danger: #e2574c;
+  --hp: #5fbf6b;
 }
 
 * {
@@ -14,6 +23,10 @@ body {
   font-family: system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif;
 }
 
+button {
+  font: inherit;
+}
+
 #app {
   max-width: 480px;
   margin: 0 auto;
@@ -24,4 +37,122 @@ body {
   margin: 0 0 12px;
   font-size: 1.5rem;
   text-align: center;
+  color: var(--accent);
+}
+
+/* HUD */
+
+.hud {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.hud strong {
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.hud-hp {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bar {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--stone);
+  overflow: hidden;
+}
+
+.bar-fill {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: var(--hp);
+  transition: width 0.2s;
+}
+
+.bar-fill.low {
+  background: var(--danger);
+}
+
+/* Board */
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2px;
+  width: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.cell {
+  aspect-ratio: 1;
+  min-width: 0;
+  padding: 0;
+  border: 1px solid var(--stone-edge);
+  border-radius: 4px;
+  background: var(--stone);
+  color: var(--muted);
+  font-size: clamp(0.65rem, 3.2vw, 0.95rem);
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.cell:hover:not(.revealed) {
+  border-color: var(--accent);
+}
+
+.cell.revealed {
+  background: var(--lit);
+  border-color: var(--lit-edge);
+  color: var(--lit-fg);
+  cursor: default;
+}
+
+.cell.enemy {
+  background: #4a2f36;
+  border-color: #6b3f48;
+  font-size: clamp(0.7rem, 3.6vw, 1.05rem);
+}
+
+.cell.slain {
+  background: #d8c7a2;
+}
+
+.cell.fatal {
+  background: var(--danger);
+  border-color: var(--danger);
+}
+
+.cell.n-low { color: #3b6fb6; }
+.cell.n-mid { color: #2f8a46; }
+.cell.n-high { color: #b0521f; }
+.cell.n-max { color: #a3202a; }
+
+.controls {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.controls button {
+  padding: 8px 14px;
+  border: 1px solid var(--stone-edge);
+  border-radius: 6px;
+  background: var(--stone);
+  color: var(--fg);
+  cursor: pointer;
 }

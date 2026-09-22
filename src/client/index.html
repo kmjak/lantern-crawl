@@ -8,6 +8,19 @@
 <body>
   <main id="app">
     <h1 class="title">Lantern Crawl</h1>
+    <section class="hud" aria-label="ステータス">
+      <div class="hud-item">Lv <strong id="hud-level">1</strong></div>
+      <div class="hud-item hud-hp">
+        HP <strong id="hud-hp">8/8</strong>
+        <span class="bar"><span id="hud-hp-bar" class="bar-fill"></span></span>
+      </div>
+      <div class="hud-item">EXP <strong id="hud-xp">0</strong></div>
+      <div class="hud-item">⏱ <strong id="hud-time">0</strong></div>
+    </section>
+    <div id="board" class="board" role="grid" aria-label="洞窟"></div>
+    <div class="controls">
+      <button id="restart" type="button">やり直す</button>
+    </div>
   </main>
   <?!= include('game') ?>
   <?!= include('ui') ?>
