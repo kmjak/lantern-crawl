@@ -44,7 +44,11 @@ function buildGas(outDir, partials) {
 
 function buildLocal(outDir, partials) {
   mkdirSync(outDir, { recursive: true });
-  const stub = wrap('stub.js', readFileSync(join(rootDir, 'scripts', 'local-stub.js'), 'utf8'));
+  // Server-side ranking rules are shared with the stub, so validation matches GAS.
+  const stub = wrap('stub.js', [
+    readFileSync(join(srcDir, 'server', 'Ranking.js'), 'utf8'),
+    readFileSync(join(rootDir, 'scripts', 'local-stub.js'), 'utf8')
+  ].join('\n'));
   const head = '<meta name="viewport" content="width=device-width, initial-scale=1">\n' + stub;
   const html = partials.index
     .replace(INCLUDE_RE, (_, name) => {
