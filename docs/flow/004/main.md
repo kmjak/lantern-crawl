@@ -2,10 +2,10 @@
 
 | Field   | Value                              |
 |---------|------------------------------------|
-| Status  | implement:in-progress              |
+| Status  | pr:in-progress                     |
 | Ticket  | docs/tickets/004.md                |
 | Branch  | 004-ranking                        |
-| Updated | 2026-09-22 19:25                   |
+| Updated | 2026-09-22 19:26                   |
 
 > The user authorized running the gates autonomously, including self-merging PRs (2026-09-22).
 
@@ -40,7 +40,18 @@ Branch: `004-ranking`
 3. `Add score submission and ranking panel to the UI`
 
 ## Implementation Log
+- `cff6d29` Add ranking validation and ordering
+- `27ece2f` Add ranking API backed by a Google Sheet
+- `a130597` Add score submission and ranking panel to the UI
+- Addition beyond the Plan: `test/server.test.js` runs `Code.js` against in-memory fakes of `PropertiesService` / `SpreadsheetApp` / `LockService`. It covers lazy sheet creation, rank, lock release, formula escaping, and validation before the sheet is touched. The real GAS behavior is verified at deploy time (005).
+- Decision: names are cut to 12 **code points** (`Array.from`), so emoji are not split in half.
+- Verification in headless Chrome (375×812, local build): a whitespace-only name shows the server error and re-enables the form; a valid submission shows "ランキング 1 位！"; the name is prefilled on the next run; the panel lists entries in score order.
 
 ## Review
+- Ticket requirements: `submitScore` / `getRanking` (top 10), validation, `LockService`, sheet id in script properties with lazy creation, client form and ranking display, localStorage stub, Node-testable logic. All implemented (37 tests passing).
+- Not verified yet: behavior on real GAS (scopes, `SpreadsheetApp.create` in the deployer's Drive, how `getValues` returns the `at` column). Deferred to 005, where the app is deployed.
+- Known limitation (accepted for v1): every read loads the whole sheet. That is fine at hobby scale.
+- Known limitation (ticket Out of Scope): scores are client-computed and can be forged.
+- No divergences from the Approach. The Plan gained one test file (see the log).
 
 ## PR
