@@ -2,7 +2,7 @@
 
 | Field   | Value                              |
 |---------|------------------------------------|
-| Status  | pr:in-progress                     |
+| Status  | done                               |
 | Ticket  | docs/tickets/004.md                |
 | Branch  | 004-ranking                        |
 | Updated | 2026-09-22 19:26                   |
@@ -55,3 +55,7 @@ Branch: `004-ranking`
 - No divergences from the Approach. The Plan gained one test file (see the log).
 
 ## PR
+- Title: 004: ランキング
+- Target: `main`
+- URL: https://github.com/kmjak/lantern-crawl/pull/4
+- Merged by Claude (self-merge authorized by the user).
