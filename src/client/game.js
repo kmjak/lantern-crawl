@@ -237,6 +237,17 @@
     return events;
   };
 
+  Game.MEMOS = [null, 1, 2, 3, 4, 5, 9, '?'];
+
+  /** Cycles the memo on a hidden cell. Returns the new memo. */
+  Game.cycleMemo = function (state, index) {
+    var cell = state.cells[index];
+    if (state.status !== 'playing' || !cell || cell.revealed) return null;
+    var next = (Game.MEMOS.indexOf(cell.memo) + 1) % Game.MEMOS.length;
+    cell.memo = Game.MEMOS[next];
+    return cell.memo;
+  };
+
   /** Whole seconds since the first reveal, until the game ended (or `now`). */
   Game.elapsedSeconds = function (state, now) {
     if (state.startedAt === null) return 0;
