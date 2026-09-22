@@ -44,7 +44,8 @@ button {
 
 .hud {
   display: flex;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 6px 12px;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
@@ -137,6 +138,8 @@ button {
 }
 
 .cell.memo {
+  border-style: dashed;
+  border-color: var(--accent);
   color: var(--accent);
   font-size: clamp(0.55rem, 2.6vw, 0.8rem);
 }
@@ -257,4 +260,57 @@ button {
   background: var(--accent);
   color: var(--lit-fg);
   font-weight: 700;
+}
+
+/* How to play */
+
+.help {
+  margin-top: 16px;
+  padding: 10px 14px;
+  border: 1px solid var(--stone-edge);
+  border-radius: 8px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.help summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.help ul {
+  margin: 8px 0;
+  padding-left: 1.2em;
+}
+
+.help-heading {
+  margin: 10px 0 4px;
+  font-weight: 700;
+}
+
+.bestiary {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 4px 12px;
+  padding: 0 !important;
+  list-style: none;
+}
+
+@media (max-width: 400px) {
+  #app {
+    padding: 12px;
+  }
+
+  .title {
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+  }
+
+  .board {
+    gap: 1px;
+  }
+
+  .cell {
+    border-radius: 3px;
+  }
 }

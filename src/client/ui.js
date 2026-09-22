@@ -26,7 +26,8 @@
     resultLevel: document.getElementById('result-level'),
     resultTime: document.getElementById('result-time'),
     retry: document.getElementById('retry'),
-    closeResult: document.getElementById('close-result')
+    closeResult: document.getElementById('close-result'),
+    bestiary: document.getElementById('bestiary')
   };
 
   function numberClass(n) {
@@ -188,6 +189,16 @@
     render();
   }
 
+  function renderBestiary() {
+    var config = Game.CONFIG;
+    var levels = config.enemies.map(function (e) { return e.level; }).concat(config.boss.level);
+    levels.forEach(function (level) {
+      var li = document.createElement('li');
+      li.textContent = GLYPHS[level] + ' Lv' + level + ' ' + Game.enemyName(config, level);
+      el.bestiary.appendChild(li);
+    });
+  }
+
   el.board.addEventListener('click', function (e) {
     var button = e.target.closest('.cell');
     if (!button) return;
@@ -206,5 +217,6 @@
   el.retry.addEventListener('click', newGame);
   el.closeResult.addEventListener('click', function () { el.result.hidden = true; });
 
+  renderBestiary();
   newGame();
 })();

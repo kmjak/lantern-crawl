@@ -23,6 +23,18 @@
       <button id="memo-toggle" type="button" aria-pressed="false">メモ：OFF</button>
       <button id="restart" type="button">やり直す</button>
     </div>
+    <details class="help">
+      <summary>遊び方</summary>
+      <ul>
+        <li>開いたマスの数字は、周り 8 マスにいる魔物のレベルの<strong>合計</strong>。</li>
+        <li>魔物のマスを開くと戦闘。自分のレベル以下の魔物はノーダメージで倒せるが、格上ほど大きなダメージを受ける。</li>
+        <li>魔物を倒すと経験値が入り、レベルアップで最大 HP が上がる。🧪 回復薬を見つけると HP が回復する。</li>
+        <li>洞窟に潜む <strong>深淵の主（Lv9）</strong>を倒せばクリア。HP が 0 になるとゲームオーバー。</li>
+        <li>メモ：右クリック（スマホは「メモ」を ON にしてタップ）で、推理した魔物のレベルを書き込める。</li>
+      </ul>
+      <p class="help-heading">洞窟の魔物</p>
+      <ul id="bestiary" class="bestiary"></ul>
+    </details>
   </main>
   <div id="result" class="overlay" hidden>
     <div class="overlay-card" role="dialog" aria-modal="true" aria-labelledby="result-title">
