@@ -19,7 +19,33 @@
       { level: 5, count: 3, name: 'カゲキシ' }
     ],
     boss: { level: 9, name: '深淵の主' },
-    potion: { count: 4, heal: 4 }
+    potion: { count: 4, heal: 4 },
+    player: {
+      baseHp: 6,
+      hpPerLevel: 2,
+      // levelXp[L] = total XP needed to reach level L. The last entry is the max level.
+      levelXp: [0, 0, 4, 12, 24, 40]
+    },
+    score: { xp: 10, clear: 1000, hp: 20, timeLimitSeconds: 600 }
+  };
+
+  Game.maxHp = function (config, level) {
+    return config.player.baseHp + config.player.hpPerLevel * level;
+  };
+
+  /**
+   * The player (attack = level) strikes first; the enemy has HP and attack equal to its level.
+   * Returns the rounds needed to win and the damage the player takes.
+   */
+  Game.combat = function (playerLevel, enemyLevel) {
+    var rounds = Math.ceil(enemyLevel / playerLevel);
+    return { rounds: rounds, damage: enemyLevel * (rounds - 1) };
+  };
+
+  Game.enemyName = function (config, level) {
+    if (level === config.boss.level) return config.boss.name;
+    var enemy = config.enemies.filter(function (e) { return e.level === level; })[0];
+    return enemy ? enemy.name : '';
   };
 
   /** Creates a new game. Contents are placed on the first reveal. */
@@ -27,7 +53,8 @@
     config = config || Game.CONFIG;
     var cells = [];
     for (var i = 0; i < config.cols * config.rows; i++) {
-      cells.push({ kind: 'empty', level: 0, number: 0, revealed: false, memo: null });
+      // `done` marks a defeated enemy or a consumed potion.
+      cells.push({ kind: 'empty', level: 0, number: 0, revealed: false, done: false, memo: null });
     }
     return {
       config: config,
@@ -35,6 +62,7 @@
       cols: config.cols,
       rows: config.rows,
       cells: cells,
+      player: { level: 1, xp: 0, hp: Game.maxHp(config, 1), maxHp: Game.maxHp(config, 1) },
       placed: false,
       status: 'playing', // 'playing' | 'cleared' | 'gameover'
       startedAt: null,
@@ -126,9 +154,70 @@
     return revealed;
   }
 
+  function end(state, status, now) {
+    state.status = status;
+    state.endedAt = now;
+  }
+
+  function gainXp(state, xp, events) {
+    var player = state.player;
+    var levelXp = state.config.player.levelXp;
+    player.xp += xp;
+    while (player.level < levelXp.length - 1 && player.xp >= levelXp[player.level + 1]) {
+      player.level++;
+      var maxHp = Game.maxHp(state.config, player.level);
+      player.hp += maxHp - player.maxHp;
+      player.maxHp = maxHp;
+      events.push({ type: 'levelup', level: player.level });
+    }
+  }
+
+  function consumePotions(state, indices, events) {
+    var player = state.player;
+    indices.forEach(function (i) {
+      var cell = state.cells[i];
+      if (cell.kind !== 'potion' || cell.done) return;
+      cell.done = true;
+      var heal = Math.min(state.config.potion.heal, player.maxHp - player.hp);
+      player.hp += heal;
+      events.push({ type: 'potion', index: i, heal: heal });
+    });
+  }
+
+  function fight(state, index, now, events) {
+    var cell = state.cells[index];
+    var player = state.player;
+    var result = Game.combat(player.level, cell.level);
+    player.hp = Math.max(0, player.hp - result.damage);
+    var won = player.hp > 0;
+    events.push({ type: 'combat', index: index, level: cell.level, damage: result.damage, won: won });
+    if (!won) {
+      cell.revealed = true;
+      events.push({ type: 'reveal', indices: [index] });
+      end(state, 'gameover', now);
+      events.push({ type: 'gameover' });
+      return;
+    }
+    cell.done = true;
+    if (cell.level === state.config.boss.level) {
+      cell.revealed = true;
+      events.push({ type: 'reveal', indices: [index] });
+      end(state, 'cleared', now);
+      events.push({ type: 'clear' });
+      return;
+    }
+    gainXp(state, cell.level, events);
+    var revealed = floodReveal(state, index);
+    events.push({ type: 'reveal', indices: revealed });
+    consumePotions(state, revealed, events);
+  }
+
   /**
    * Reveals a cell. `now` is a timestamp in ms.
-   * Returns a list of events describing what happened.
+   * Returns a list of events describing what happened:
+   *   { type: 'reveal', indices }, { type: 'potion', index, heal },
+   *   { type: 'combat', index, level, damage, won }, { type: 'levelup', level },
+   *   { type: 'clear' }, { type: 'gameover' }
    */
   Game.reveal = function (state, index, now) {
     var cell = state.cells[index];
@@ -139,10 +228,31 @@
     }
     var events = [];
     if (cell.kind === 'enemy') {
+      fight(state, index, now, events);
       return events;
     }
-    events.push({ type: 'reveal', indices: floodReveal(state, index) });
+    var revealed = floodReveal(state, index);
+    events.push({ type: 'reveal', indices: revealed });
+    consumePotions(state, revealed, events);
     return events;
+  };
+
+  /** Whole seconds since the first reveal, until the game ended (or `now`). */
+  Game.elapsedSeconds = function (state, now) {
+    if (state.startedAt === null) return 0;
+    var until = state.endedAt !== null ? state.endedAt : now;
+    return Math.max(0, Math.floor((until - state.startedAt) / 1000));
+  };
+
+  /** Score of a finished game. */
+  Game.score = function (state) {
+    var s = state.config.score;
+    var score = state.player.xp * s.xp;
+    if (state.status === 'cleared') {
+      var seconds = Game.elapsedSeconds(state, state.endedAt);
+      score += s.clear + state.player.hp * s.hp + Math.max(0, s.timeLimitSeconds - seconds);
+    }
+    return score;
   };
 
   if (typeof module !== 'undefined' && module.exports) {

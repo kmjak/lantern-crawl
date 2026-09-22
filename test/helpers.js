@@ -9,9 +9,12 @@ exports.seeded = function (seed) {
   };
 };
 
+const Game = require('../src/client/game.js');
+
 // Small board config for hand-written layouts.
 exports.smallConfig = function (cols, rows) {
   return {
+    ...Game.CONFIG,
     cols: cols,
     rows: rows,
     enemies: [{ level: 1, count: 0, name: 'L1' }],
