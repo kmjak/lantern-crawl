@@ -8,8 +8,6 @@
   var fatalIndex = null;
   var timer = null;
   var memoMode = false;
-  var submitted = false;
-  var NAME_KEY = 'lantern-crawl-name';
 
   var el = {
     board: document.getElementById('board'),
@@ -29,14 +27,7 @@
     resultTime: document.getElementById('result-time'),
     retry: document.getElementById('retry'),
     closeResult: document.getElementById('close-result'),
-    bestiary: document.getElementById('bestiary'),
-    submitForm: document.getElementById('submit-form'),
-    nickname: document.getElementById('nickname'),
-    submitScore: document.getElementById('submit-score'),
-    submitStatus: document.getElementById('submit-status'),
-    rankingPanel: document.getElementById('ranking-panel'),
-    rankingList: document.getElementById('ranking-list'),
-    rankingStatus: document.getElementById('ranking-status')
+    bestiary: document.getElementById('bestiary')
   };
 
   function numberClass(n) {
@@ -128,92 +119,8 @@
     el.resultScore.textContent = Game.score(state);
     el.resultLevel.textContent = 'Lv' + state.player.level;
     el.resultTime.textContent = Game.elapsedSeconds(state, state.endedAt) + '秒';
-    resetSubmitForm();
     el.result.hidden = false;
     el.retry.focus();
-  }
-
-  // localStorage can be unavailable (private mode, blocked storage).
-  function loadName() {
-    try {
-      return localStorage.getItem(NAME_KEY) || '';
-    } catch (e) {
-      return '';
-    }
-  }
-
-  function saveName(name) {
-    try {
-      localStorage.setItem(NAME_KEY, name);
-    } catch (e) {
-      // Not remembered; nothing else to do.
-    }
-  }
-
-  function setSubmitEnabled(enabled) {
-    el.nickname.disabled = !enabled;
-    el.submitScore.disabled = !enabled;
-  }
-
-  function resetSubmitForm() {
-    submitted = false;
-    el.nickname.value = loadName();
-    el.submitStatus.textContent = '';
-    setSubmitEnabled(true);
-  }
-
-  function submitScore() {
-    if (submitted) return;
-    submitted = true;
-    setSubmitEnabled(false);
-    el.submitStatus.textContent = '送信中…';
-    var entry = {
-      name: el.nickname.value,
-      score: Game.score(state),
-      result: state.status === 'cleared' ? 'clear' : 'gameover',
-      level: state.player.level,
-      seconds: Game.elapsedSeconds(state, state.endedAt)
-    };
-    google.script.run
-      .withSuccessHandler(function (res) {
-        saveName(el.nickname.value.trim());
-        el.submitStatus.textContent = 'ランキング ' + res.rank + ' 位！';
-        renderRanking(res.top);
-      })
-      .withFailureHandler(function (err) {
-        submitted = false;
-        setSubmitEnabled(true);
-        el.submitStatus.textContent = '登録できませんでした：' + (err && err.message ? err.message : err);
-      })
-      .submitScore(entry);
-  }
-
-  function renderRanking(top) {
-    el.rankingList.innerHTML = '';
-    el.rankingStatus.textContent = top.length ? '' : 'まだ記録がありません。';
-    top.forEach(function (entry) {
-      var li = document.createElement('li');
-      var score = document.createElement('span');
-      score.className = 'rank-score';
-      score.textContent = entry.score + ' ';
-      var meta = document.createElement('span');
-      meta.className = 'rank-meta';
-      meta.textContent = (entry.result === 'clear' ? '👑 ' : '') + 'Lv' + entry.level + ' ・ ' + entry.seconds + '秒';
-      li.appendChild(score);
-      li.appendChild(document.createTextNode(entry.name + ' '));
-      li.appendChild(meta);
-      el.rankingList.appendChild(li);
-    });
-  }
-
-  function loadRanking() {
-    el.rankingStatus.textContent = '読み込み中…';
-    google.script.run
-      .withSuccessHandler(renderRanking)
-      .withFailureHandler(function () {
-        el.rankingStatus.textContent = 'ランキングを読み込めませんでした。';
-      })
-      .getRanking();
   }
 
   function onEvents(events) {
@@ -309,13 +216,6 @@
   el.restart.addEventListener('click', newGame);
   el.retry.addEventListener('click', newGame);
   el.closeResult.addEventListener('click', function () { el.result.hidden = true; });
-  el.submitForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    submitScore();
-  });
-  el.rankingPanel.addEventListener('toggle', function () {
-    if (el.rankingPanel.open) loadRanking();
-  });
 
   renderBestiary();
   newGame();
