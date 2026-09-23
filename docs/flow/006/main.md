@@ -2,10 +2,10 @@
 
 | Field   | Value                              |
 |---------|------------------------------------|
-| Status  | implement:in-progress              |
+| Status  | pr:in-progress                     |
 | Ticket  | docs/tickets/006.md                |
 | Branch  | 006-github-pages                   |
-| Updated | 2026-09-24 01:54                   |
+| Updated | 2026-09-24 02:00                   |
 
 > The user authorized running the gates autonomously, including self-merging PRs (2026-09-22).
 
@@ -33,7 +33,18 @@ Branch: `006-github-pages`
 3. `Deploy to GitHub Pages with Actions` (+ docs)
 
 ## Implementation Log
+- `a3e65b0` Remove the ranking feature
+- `ee233b7` Build a static site instead of a GAS project
+- `4b80266` Deploy to GitHub Pages with Actions (includes the README and context updates)
+- Deleted: `src/server/`, `src/appsscript.json`, `.clasp.json`, `scripts/local-stub.js`, `test/ranking.test.js`, `test/server.test.js`, and the `push` / `deploy` npm scripts.
+- `src/client/*` moved to `src/`, since there is no server side any more.
+- The workflow runs `npm test` before building, so a broken build is not published.
+- Verification in headless Chrome (390×844, `build/site/index.html`): no horizontal scroll, the title is set, a run reaches game over with the score overlay, retry starts a new run, and no ranking UI is left.
 
 ## Review
+- Ticket requirements: ranking removed, single static page, Actions deploy, docs updated. All done (27 tests passing).
+- Divergence from the ticket, agreed in the Approach: the GAS build target was dropped entirely rather than kept alongside. With no ranking, GAS had no remaining role.
+- Not verified yet: the Pages URL itself. Pages has to be switched to the "GitHub Actions" source and the first workflow run has to finish, which happens after this PR is merged.
+- The GAS project and the "Lantern Crawl Ranking" spreadsheet stay in the owner's Google account, unused (out of scope).
 
 ## PR
