@@ -9,7 +9,7 @@ exports.seeded = function (seed) {
   };
 };
 
-const Game = require('../src/client/game.js');
+const Game = require('../src/game.js');
 
 // Small board config for hand-written layouts.
 exports.smallConfig = function (cols, rows) {

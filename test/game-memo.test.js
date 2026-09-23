@@ -1,6 +1,6 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const Game = require('../src/client/game.js');
+const Game = require('../src/game.js');
 const { smallConfig } = require('./helpers.js');
 
 test('memo cycles through levels, ? and back to none', () => {

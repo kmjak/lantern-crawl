@@ -1,6 +1,6 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const Game = require('../src/client/game.js');
+const Game = require('../src/game.js');
 const { smallConfig } = require('./helpers.js');
 
 // 5x1 row board from a layout; the player's stats can be overridden.

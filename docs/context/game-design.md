@@ -62,9 +62,4 @@ Combat happens when the player reveals an enemy cell. It resolves instantly:
 ## Score
 
 - `score = xpTotal × 10 + (cleared ? 1000 + hp × 20 + max(0, 600 − seconds) : 0)`
-- The score is submitted to the shared ranking on both clear and game over, together with a nickname.
-
-## Ranking
-
-- Top 10 by score, stored in a Google Sheet.
-- Row: nickname (1–12 chars, trimmed), score, result (`clear` / `gameover`), level, seconds, timestamp.
+- The score is shown on the result overlay at the end of a run. It is not stored anywhere (see ticket 006).
