@@ -1,6 +1,6 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const Game = require('../src/client/game.js');
+const Game = require('../src/game.js');
 const { seeded, smallConfig } = require('./helpers.js');
 
 function count(state, pred) {
