@@ -2,7 +2,7 @@
 
 | Field   | Value                              |
 |---------|------------------------------------|
-| Status  | pr:in-progress                     |
+| Status  | done                               |
 | Ticket  | docs/tickets/006.md                |
 | Branch  | 006-github-pages                   |
 | Updated | 2026-09-24 02:00                   |
@@ -48,3 +48,7 @@ Branch: `006-github-pages`
 - The GAS project and the "Lantern Crawl Ranking" spreadsheet stay in the owner's Google account, unused (out of scope).
 
 ## PR
+- Title: 006: GitHub Pages への移行（ランキング削除）
+- Target: `main`
+- URL: https://github.com/kmjak/lantern-crawl/pull/6
+- Merged by Claude (self-merge authorized by the user).
